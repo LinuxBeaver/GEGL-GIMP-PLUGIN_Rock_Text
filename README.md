@@ -1,7 +1,7 @@
 
 You need to build rock-text, zzwhite, mcol and zzmlayer and put them in /gegl-0.4/plug-ins
 
-If you already have gegl mcol installed from my previous plugins you should be good and as well be safe to overide it.
+If you already have gegl mcol installed from my previous plugins you should be good and it is still safe to overide it. 
 ## Compiling and Installing
 
 ### Linux
