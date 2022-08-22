@@ -23,6 +23,9 @@
 #ifdef GEGL_PROPERTIES
 
 
+property_color (coloroverlay, _("Color Overlay"), "#ffffff")
+    description (_("The color to paint over the input"))
+    ui_meta     ("role", "output-extent")
 
 
 property_int  (size, _("Internal Median Blur Radius"), 1)
@@ -168,7 +171,7 @@ static void attach (GeglOperation *operation)
 
 
   color    = gegl_node_new_child (gegl,
-                                  "operation", "gegl:zzwhite",
+                                  "operation", "gegl:color-overlay",
                                   NULL);
   median    = gegl_node_new_child (gegl,
                                   "operation", "gegl:median-blur",
@@ -220,7 +223,7 @@ static void attach (GeglOperation *operation)
 
 
 
-
+  gegl_operation_meta_redirect (operation, "coloroverlay", color, "value");
 
   gegl_operation_meta_redirect (operation, "size", median, "radius");
 
