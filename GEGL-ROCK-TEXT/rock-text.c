@@ -164,7 +164,7 @@ property_double (exposure, _("Darker to Brighter"), 0.3)
 static void attach (GeglOperation *operation)
 {
   GeglNode *gegl = operation->node;
-  GeglNode *input, *color, *median, *noise, *gaussian, *shift, *median2, *emboss, *alpha, *mcol, *image, *outline, *exposure,  *output;
+  GeglNode *input, *color, *median, *noise, *gaussian, *shift, *median2, *imagefileupload, *nop, *coloroverlay, *emboss, *alpha, *mcol, *image, *outline, *exposure,  *output;
 
   input    = gegl_node_get_input_proxy (gegl, "input");
   output   = gegl_node_get_output_proxy (gegl, "output");
@@ -206,12 +206,26 @@ static void attach (GeglOperation *operation)
                                   NULL);
 
  mcol    = gegl_node_new_child (gegl,
-                                  "operation", "gegl:mcol",
+                                  "operation", "gegl:multiply",
                                   NULL);
 
  image    = gegl_node_new_child (gegl,
-                                  "operation", "gegl:zzmlayer",
+                                  "operation", "gegl:multiply",
                                   NULL);
+
+ nop    = gegl_node_new_child (gegl,
+                                  "operation", "gegl:nop",
+                                  NULL);
+
+
+ imagefileupload    = gegl_node_new_child (gegl,
+                                  "operation", "gegl:layer",
+                                  NULL);
+
+ coloroverlay    = gegl_node_new_child (gegl,
+                                  "operation", "gegl:color-overlay",
+                                  NULL);
+
 
  exposure    = gegl_node_new_child (gegl,
                                   "operation", "gegl:exposure",
@@ -263,17 +277,21 @@ static void attach (GeglOperation *operation)
 
   gegl_operation_meta_redirect (operation, "exposure", exposure, "exposure");
 
-  gegl_operation_meta_redirect (operation, "mvalue", mcol, "value");
+  gegl_operation_meta_redirect (operation, "mvalue", coloroverlay, "value");
 
-  gegl_operation_meta_redirect (operation, "src", image, "src");
-
-
+  gegl_operation_meta_redirect (operation, "src", imagefileupload, "src");
 
 
 
 
 
-  gegl_node_link_many (input, color, median, noise, gaussian, shift, median2, emboss, alpha, mcol, outline, exposure, image, output, NULL);
+
+
+  gegl_node_link_many (input, color, median, noise, gaussian, shift, median2, emboss, alpha, image, outline, exposure, mcol, nop, output, NULL);
+  gegl_node_connect_from (image, "aux", imagefileupload, "output"); 
+  gegl_node_connect_from (mcol, "aux", coloroverlay, "output"); 
+  gegl_node_link_many (imagefileupload,  NULL);
+  gegl_node_link_many (input, coloroverlay, NULL);
 
 
 
