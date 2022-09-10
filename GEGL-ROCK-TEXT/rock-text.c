@@ -35,20 +35,20 @@ property_int  (size, _("Internal Median Blur Radius"), 1)
   description (_("Neighborhood radius, a negative value will calculate with inverted percentiles"))
 
 
-property_double  (alpha_percentile, _("Internal Median Blur Alpha percentile"), 110)
+property_double  (alpha_percentile, _("Internal Median Blur Alpha percentile"), 48)
   value_range (0, 110)
   description (_("Neighborhood alpha percentile"))
 
 
 
 
-property_int    (amountx, _("Rockification Horizontal"), 75)
+property_int    (amountx, _("Rockification Horizontal"), 30)
     description (_("Horizontal spread amount"))
     value_range (0, 112)
     ui_meta     ("unit", "pixel-distance")
     ui_meta     ("axis", "x")
 
-property_int    (amounty, _("Rockification Vertical"), 86)
+property_int    (amounty, _("Rockification Vertical"), 22)
     description (_("Vertical spread amount"))
     value_range (0, 112)
     ui_meta     ("unit", "pixel-distance")
@@ -57,7 +57,7 @@ property_int    (amounty, _("Rockification Vertical"), 86)
 property_seed (seed, _("Random seed"), rand)
 
 
-property_double (gaussian, _("Internal Gaussian Blur"), 2)
+property_double (gaussian, _("Internal Gaussian Blur"), 1.8)
    description (_("Standard deviation for the xy axis"))
    value_range (1.0, 4.0)
    ui_range    (0.24, 4.0)
@@ -69,7 +69,7 @@ property_double (gaussian, _("Internal Gaussian Blur"), 2)
 
 
 
-property_int  (shift, _("Horizontal Shift"), 5)
+property_int  (shift, _("Horizontal Shift"), 3)
     description(_("Maximum amount to shift"))
     value_range (0, 10)
     ui_meta    ("unit", "pixel-distance")
@@ -77,7 +77,7 @@ property_int  (shift, _("Horizontal Shift"), 5)
 property_seed (seed2, _("Random seed"), rand2)
 
 
-property_int  (size2, _("Internal Median Blur Radius"), 9)
+property_int  (size2, _("Internal Median Blur Radius"), 5)
   value_range (0, 10)
   ui_range    (0, 10)
   ui_meta     ("unit", "pixel-distance")
@@ -85,13 +85,13 @@ property_int  (size2, _("Internal Median Blur Radius"), 9)
 
 
 
-property_double (azimuth, _("Light Rotation"), 90.0)
+property_double (azimuth, _("Light Rotation"), 180.0)
     description (_("Light angle (degrees)"))
     value_range (0, 360)
     ui_meta ("unit", "degree")
     ui_meta ("direction", "ccw")
 
-property_double (elevation, _("Elevation of Emboss"), 45.0)
+property_double (elevation, _("Elevation of Emboss"), 97.0)
     description (_("Elevation angle (degrees)"))
     value_range (0, 180)
     ui_meta ("unit", "degree")
@@ -118,7 +118,7 @@ property_double (y, _("Y outline"), 1.0)
   ui_meta       ("unit", "pixel-distance")
   ui_meta       ("axis", "y")
 
-property_double (radius, _("Outline Blur radius"), 1.0)
+property_double (radius, _("Outline Blur radius"), 0.5)
   value_range   (0.0, G_MAXDOUBLE)
   ui_range      (0.0, 1.0)
   ui_steps      (1, 5)
@@ -127,7 +127,7 @@ property_double (radius, _("Outline Blur radius"), 1.0)
 
 
 
-property_double (grow_radius, _("Outline Grow radius"), 1.0)
+property_double (grow_radius, _("Outline Grow radius"), 0)
   value_range   (-5.0, 5.0)
   ui_range      (-5.0, 5.0)
   ui_digits     (0)
@@ -143,11 +143,11 @@ property_color  (color, _("Outline Color"), "black")
 /* It does make sense to sometimes have opacities > 1 (see GEGL logo
  * for example)
  */
-property_double (opacity, _("Outline Opacity"), 1.0)
+property_double (opacity, _("Outline Opacity"), 0.2)
   value_range   (0.0, 2.0)
   ui_steps      (0.01, 0.10)
 
-property_double (exposure, _("Darker to Brighter"), 0.3)
+property_double (exposure, _("Darker to Brighter"), 0.5)
     description (_("Relative brightness change in stops"))
     ui_range    (-2.0, 2.0)
 
@@ -164,7 +164,7 @@ property_double (exposure, _("Darker to Brighter"), 0.3)
 static void attach (GeglOperation *operation)
 {
   GeglNode *gegl = operation->node;
-  GeglNode *input, *color, *median, *noise, *gaussian, *shift, *median2, *imagefileupload, *nop, *coloroverlay, *emboss, *alpha, *mcol, *image, *outline, *exposure,  *output;
+  GeglNode *input, *color, *median, *noise, *gaussian, *shift, *median2, *imagefileupload, *nop, *nop2, *coloroverlay, *emboss, *alpha, *mcol, *image, *outline, *exposure,  *output;
 
   input    = gegl_node_get_input_proxy (gegl, "input");
   output   = gegl_node_get_output_proxy (gegl, "output");
@@ -216,6 +216,11 @@ static void attach (GeglOperation *operation)
  nop    = gegl_node_new_child (gegl,
                                   "operation", "gegl:nop",
                                   NULL);
+
+ nop2    = gegl_node_new_child (gegl,
+                                  "operation", "gegl:nop",
+                                  NULL);
+
 
 
  imagefileupload    = gegl_node_new_child (gegl,
@@ -287,11 +292,11 @@ static void attach (GeglOperation *operation)
 
 
 
-  gegl_node_link_many (input, color, median, noise, gaussian, shift, median2, emboss, alpha, image, outline, exposure, mcol, nop, output, NULL);
+  gegl_node_link_many (input, color, median, noise, gaussian, shift, median2, emboss, alpha, image, outline, exposure, nop, mcol, output, NULL);
   gegl_node_connect_from (image, "aux", imagefileupload, "output"); 
   gegl_node_connect_from (mcol, "aux", coloroverlay, "output"); 
   gegl_node_link_many (imagefileupload,  NULL);
-  gegl_node_link_many (input, coloroverlay, NULL);
+  gegl_node_link_many (nop, coloroverlay, NULL);
 
 
 
