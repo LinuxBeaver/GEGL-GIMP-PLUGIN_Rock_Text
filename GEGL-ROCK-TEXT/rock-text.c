@@ -36,7 +36,7 @@ property_int  (size, _("Internal Median Blur Radius"), 1)
 
 
 property_double  (alpha_percentile, _("Internal Median Blur Alpha percentile"), 48)
-  value_range (0, 110)
+  value_range (0, 100)
   description (_("Neighborhood alpha percentile"))
 
 
@@ -59,7 +59,7 @@ property_seed (seed, _("Random seed"), rand)
 
 property_double (gaussian, _("Internal Gaussian Blur"), 1.8)
    description (_("Standard deviation for the xy axis"))
-   value_range (1.0, 4.0)
+   value_range (0.24, 4.0)
    ui_range    (0.24, 4.0)
    ui_gamma    (3.0)
    ui_meta     ("unit", "pixel-distance")
@@ -164,7 +164,7 @@ property_double (exposure, _("Darker to Brighter"), 0.5)
 static void attach (GeglOperation *operation)
 {
   GeglNode *gegl = operation->node;
-  GeglNode *input, *color, *median, *noise, *gaussian, *shift, *median2, *imagefileupload, *nop, *nop2, *coloroverlay, *emboss, *alpha, *mcol, *image, *outline, *exposure,  *output;
+  GeglNode *input, *color, *median, *noise, *gaussian, *shift, *median2, *imagefileupload, *nop, *coloroverlay, *emboss, *alpha, *mcol, *image, *outline, *exposure,  *output;
 
   input    = gegl_node_get_input_proxy (gegl, "input");
   output   = gegl_node_get_output_proxy (gegl, "output");
@@ -217,10 +217,6 @@ static void attach (GeglOperation *operation)
                                   "operation", "gegl:nop",
                                   NULL);
 
- nop2    = gegl_node_new_child (gegl,
-                                  "operation", "gegl:nop",
-                                  NULL);
-
 
 
  imagefileupload    = gegl_node_new_child (gegl,
@@ -264,12 +260,6 @@ static void attach (GeglOperation *operation)
 
   gegl_operation_meta_redirect (operation, "elevation", emboss, "elevation");
 
-  gegl_operation_meta_redirect (operation, "depth", emboss, "depth");
-
-  gegl_operation_meta_redirect (operation, "type", emboss, "type");
-
-  gegl_operation_meta_redirect (operation, "percentile", median, "percentile");
-
   gegl_operation_meta_redirect (operation, "alpha-percentile", median, "alpha-percentile");
 
 
@@ -295,7 +285,6 @@ static void attach (GeglOperation *operation)
   gegl_node_link_many (input, color, median, noise, gaussian, shift, median2, emboss, alpha, image, outline, exposure, nop, mcol, output, NULL);
   gegl_node_connect_from (image, "aux", imagefileupload, "output"); 
   gegl_node_connect_from (mcol, "aux", coloroverlay, "output"); 
-  gegl_node_link_many (imagefileupload,  NULL);
   gegl_node_link_many (nop, coloroverlay, NULL);
 
 
