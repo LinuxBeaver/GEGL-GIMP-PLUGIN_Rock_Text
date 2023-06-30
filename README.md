@@ -52,5 +52,12 @@ meson setup --buildtype=release build
 ninja -C build
 ```
 
+## More Previews just to show off this based plugin.
+
+![image](https://github.com/LinuxBeaver/GEGL-Stone-Text/assets/78667207/355e7836-111d-4b87-9bce-721880c3d8ba)
+
+
+![image](https://github.com/LinuxBeaver/GEGL-Stone-Text/assets/78667207/380e8d22-6a44-4f4c-9087-7c0fc844cc7f)
+
 
 
