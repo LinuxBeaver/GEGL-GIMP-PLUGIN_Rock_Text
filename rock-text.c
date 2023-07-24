@@ -293,6 +293,8 @@ gegl_op_class_init (GeglOpClass *klass)
     "reference-hash", "30do6a1h24f10jcjf25sb2ac",
     "description", _("Rock Text with GEGL. Color and Image overlay work best if the rock text is white.  "
                      ""),
+    "gimp:menu-path", "<Image>/Filters/Text Styling",
+    "gimp:menu-label", _("Rock Text (original)..."),
     NULL);
 }
 
