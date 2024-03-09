@@ -271,8 +271,8 @@ static void attach (GeglOperation *operation)
   gegl_operation_meta_redirect (operation, "src", imagefileupload, "src");
 
   gegl_node_link_many (input, color, median, noise, gaussian, shift, median2, emboss, alpha, image, outline, exposure, nop, mcol, output, NULL);
-  gegl_node_connect_from (image, "aux", imagefileupload, "output"); 
-  gegl_node_connect_from (mcol, "aux", coloroverlay, "output"); 
+  gegl_node_connect (image, "aux", imagefileupload, "output"); 
+  gegl_node_connect (mcol, "aux", coloroverlay, "output"); 
   gegl_node_link_many (nop, coloroverlay, NULL);
 
 }
@@ -287,7 +287,7 @@ gegl_op_class_init (GeglOpClass *klass)
   operation_class->attach = attach;
 
   gegl_operation_class_set_keys (operation_class,
-    "name",        "gegl:rock-text",
+    "name",        "lb:rock-text",
     "title",       _("Rock Text"),
     "categories",  "Aristic",
     "reference-hash", "30do6a1h24f10jcjf25sb2ac",
