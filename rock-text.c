@@ -19,7 +19,7 @@
 
 /*
 GEGL Graph recreation of Rock Text so users can test without installing.
-This may not be 100% accurate but it is close enough. 
+This may not be 100% accurate but it is close enough.
 
 #rock text
 median-blur radius=10 alpha-percentile=70
@@ -233,7 +233,7 @@ static void attach (GeglOperation *operation)
                                   NULL);
 
  coloroverlay    = gegl_node_new_child (gegl,
-                                  "operation", "gegl:color-overlay", 
+                                  "operation", "gegl:color-overlay",
                                   NULL);
 
 
@@ -246,8 +246,6 @@ static void attach (GeglOperation *operation)
                                   NULL);
 
 
-
-  gegl_operation_meta_redirect (operation, "coloroverlay", color, "value");
   gegl_operation_meta_redirect (operation, "size", median, "radius");
   gegl_operation_meta_redirect (operation, "shift", shift, "shift");
   gegl_operation_meta_redirect (operation, "seed2", shift, "seed");
@@ -271,8 +269,8 @@ static void attach (GeglOperation *operation)
   gegl_operation_meta_redirect (operation, "src", imagefileupload, "src");
 
   gegl_node_link_many (input, color, median, noise, gaussian, shift, median2, emboss, alpha, image, outline, exposure, nop, mcol, output, NULL);
-  gegl_node_connect (image, "aux", imagefileupload, "output"); 
-  gegl_node_connect (mcol, "aux", coloroverlay, "output"); 
+  gegl_node_connect (image, "aux", imagefileupload, "output");
+  gegl_node_connect (mcol, "aux", coloroverlay, "output");
   gegl_node_link_many (nop, coloroverlay, NULL);
 
 }
