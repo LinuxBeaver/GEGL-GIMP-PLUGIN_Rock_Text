@@ -151,7 +151,7 @@ property_color  (color, _("Outline Color"), "black")
  * for example)
  */
 property_double (opacity, _("Outline Opacity"), 0.2)
-  value_range   (0.0, 2.0)
+  value_range   (0.0, 1.0)
   ui_steps      (0.01, 0.10)
 
 property_double (exposure, _("Darkness to light"), 0.5)
