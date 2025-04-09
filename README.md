@@ -1,4 +1,4 @@
-![image preview](rock_text.png )
+![image](https://github.com/user-attachments/assets/206d4555-a584-4202-9545-af1bf0b284e3)
 
 
 ## OS specific location to put GEGL Filter binaries 
@@ -7,10 +7,10 @@ Windows
  C:\\Users\<YOUR NAME>\AppData\Local\gegl-0.4\plug-ins
  
  Linux 
- /home/(USERNAME)/.local/share/gegl-0.4/plug-ins
+`~/.local/share/gegl-0.4/plug-ins`
  
  Linux (Flatpak)
- /home/(USERNAME)/.var/app/org.gimp.GIMP/data/gegl-0.4/plug-ins
+`~/.var/app/org.gimp.GIMP/data/gegl-0.4/plug-ins`
 
 
 
@@ -54,10 +54,12 @@ ninja -C build
 
 ## More Previews just to show off this based plugin.
 
+
+![image preview](rock_text.png )
+
 ![image](https://github.com/LinuxBeaver/GEGL-Stone-Text/assets/78667207/355e7836-111d-4b87-9bce-721880c3d8ba)
 
 
-![image](https://github.com/LinuxBeaver/GEGL-Stone-Text/assets/78667207/380e8d22-6a44-4f4c-9087-7c0fc844cc7f)
 
 
 
