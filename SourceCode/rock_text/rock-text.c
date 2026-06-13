@@ -56,7 +56,7 @@ enum_value   (ROCKTEXT_SHOW_LEGACY, "legacy", N_("Legacy Sliders for technical u
 property_enum (rockblend, _("Blend mode of rock emboss"),
     againnicherock, nicherock,
     multiply)
-   description  (_("Blend mode of the rock's emboss"))
+   description  (_("Blend mode of the rockꞌs emboss"))
 
 
 enum_start (nicherock)
@@ -185,8 +185,8 @@ property_double (grow_radius, _("Outline Grow radius"), 0)
 ui_meta ("visible", "guichange {legacy}")
 
 property_color  (color, _("Outline Color"), "black")
-    /* TRANSLATORS: the string 'black' should not be translated */
-  description   (_("The shadow's color (defaults to 'black')"))
+    /* TRANSLATORS: the string ꞌblackꞌ should not be translated */
+  description   (_("The shadowꞌs color (defaults to ꞌblackꞌ)"))
 ui_meta ("visible", "guichange {legacy}")
 
 /* It does make sense to sometimes have opacities > 1 (see GEGL logo
@@ -198,7 +198,7 @@ property_double (opacity, _("Outline Opacity"), 0.0)
 ui_meta ("visible", "guichange {legacy}")
 
 property_double (exposure, _("Darkness to light"), 0.5)
-    description (_("Exposure's darkness to light"))
+    description (_("Exposureꞌs darkness to light"))
     ui_range    (-2.0, 2.0)
 ui_meta ("visible", "guichange {legacy}")
 
